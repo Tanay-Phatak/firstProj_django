@@ -1,0 +1,26 @@
+{% extends temp_template %}
+{% block update_row %}
+
+<form action="updaterecord/{{ mymember.id }}" method="post">
+{% csrf_token %}
+First Name:<br>
+<input name="first" value="{{ mymember.firstname }}">
+<br><br>
+Last Name:<br>
+<input name="last" value="{{ mymember.lastname }}">
+<br><br>
+<input type="submit" value="Submit">
+</form>
+
+<!-- <form action="updaterecord/{{ mymember.id }}" method="post">
+    <tr>
+        <td><input name="first" value="{{ mymember.firstname }}"></td>
+        <td><input name="last" value="{{ mymember.firstname }}"></td>
+        <td><input name="hobbies" value="{{ mymember.hobbies }}"></td>
+        <td><input name="dob" value="{{ mymember.dob }}"></td>
+
+    </tr>
+</form> -->
+
+
+{% endblock %}

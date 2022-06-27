@@ -1,0 +1,171 @@
+<!-- <!DOCTYPE html5>
+
+<div class="body" align="center">
+    <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        <span class="inline">
+            First Name :
+            <input name="Firstname" id="Firstname" />
+            Last Name :
+            <input name="Lastname" id="Lastname" />
+            Hobbies :
+            <select name="Hobbies" id="Hobbies">
+                <option value=""></option>
+                <option value="football">football</option>
+                <option value="badminton">badminton</option>
+                <option value="cricket">cricket</option>
+                <option value="swimming">swimming</option>
+                <option value="cooking">cooking</option>
+                <option value="drawing">drawing</option>
+                <option value="painting">painting</option>
+                <option value="cycling">cycling</option>
+                <option value="squash">squash</option>
+                <option value="hiking">hiking</option>
+            </select></t>
+            Date Of Birth :
+            Start:
+            <input type='date' name="DOB_start" id="DOB_start" />
+            End:
+            <input type='date' name="DOB_end" id="DOB_end" />
+            <br><br>
+             <input type="submit" value="Search">
+            <br><br> 
+    </form>
+    </span>
+</div>
+</div> -->
+
+
+
+<!-- <table id='dataTable' border='1' align="center">
+    <thead>
+        {% block content %}
+        {% endblock %}
+
+        {% include 'disp1.html' %}
+
+        <tr>
+            <th>ID</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Hobbies</th>
+            <th>DateOfBirth</th>
+        </tr>
+    </thead>
+</table> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const sendSearchData = (searchStr) => {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "{% url 'search' %}",
+    //         data: {
+    //             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+    //             'str': searchStr,
+    //             'fname': document.getElementById('Firstname').value,
+    //             'lname': document.getElementById('Lastname').value,
+    //             'hobbies': document.getElementById('Hobbies').value,
+    //             'dob_start': document.getElementById('DOB_start').value,
+    //             'dob_end': document.getElementById('DOB_end').value,
+    //         },
+    //         success: (response) => {
+    //             console.log("success");
+    //             console.log(response);
+    //             fillTable(response);
+    //             // data = response.value;
+    //             // here we adding rows to table dynamically by appending <tr> tags in tbody of table......
+    //         },
+    //         error: (err) => {
+    //             console.log(err);
+    //         }
+    //     })
+    // }
+
+
+    // const input_fname = document.getElementById('Firstname');
+    // const input_lname = document.getElementById('Lastname');
+    // const input_hobbies = document.getElementById('Hobbies');
+    // const input_dob_start = document.getElementById('DOB_start');
+    // const input_dob_end = document.getElementById('DOB_end');
+    // var searchTxt = ""
+    // input_fname.addEventListener("keyup", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+
+    // input_lname.addEventListener("keyup", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+    // input_hobbies.addEventListener("change", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+    // input_dob_start.addEventListener("change", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+    // input_dob_end.addEventListener("change", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+
+
+
+
+
+
+
+    // const updateData = (id) => {
+        //     console.log('update', id)
+    
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "{% url 'update' %}",
+        //         data: {
+        //             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        //             'id': id,
+        //             'fname':,
+        //             'lname':,
+        //             'hobbies':,
+        //             'dob':,
+        //         },
+        //         success: (res) => {
+        //             fillTable(res)
+        //         }
+        //     })
+        // }

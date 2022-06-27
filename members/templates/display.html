@@ -1,0 +1,241 @@
+<!--  -->
+
+{% include 'temp_template.html' %}
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+<script>
+    src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+
+    function fillTable(response) {
+        $("#dataTable").find("tbody").remove();
+
+        var addStr = "<tbody>";
+        for (i = 0; i < response['data'].length; i++) {
+            addStr += `<tr id=${response['data'][i][0]}><td>${response['data'][i][0]}</td>`;
+            addStr += `<td>${response['data'][i][1]}</td>`;
+            addStr += `<td>${response['data'][i][2]}</td>`;
+            addStr += `<td>${response['data'][i][3]}</td>`;
+            addStr += `<td>${response['data'][i][4]}</td>`;
+            addStr +=
+                `<td><button id='${response['data'][i][0]}' class='edit-button' onclick='updateTable(this.id)' class='no-click' title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>`;
+            addStr +=
+                `<button id='${response['data'][i][0]}' onclick='deleteData(this.id)' class="delete-button" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td></tr>`;
+        }
+        addStr += "</tbody>";
+        $('#dataTable thead').after(addStr);
+    }
+
+    var clickCount = 0;
+
+    function refresh_onUpdate(id) {
+        fname = document.getElementById('fname' + id).value;
+        lname = document.getElementById('lname' + id).value;
+        hobbies = document.getElementById('hobbies' + id).value;
+
+        console.log(fname)
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'update' %}",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                'id': id,
+                'fname': fname,
+                'lname': lname,
+                'hobbies': hobbies,
+            },
+            success: (res) => {
+                console.log('updated record')
+                fillTable(res)
+            }
+        })
+    }
+
+    function updateTable(id) {
+        clickCount++;
+        const updation_row = document.getElementById(id);
+        if (clickCount % 2 == 1) {
+
+            const row_td_fname = document.createElement('td');
+            const row_fname_input = document.createElement('INPUT');
+            row_fname_input.setAttribute('id', 'fname' + id);
+            row_fname_input.setAttribute('types', 'text');
+            row_fname_input.setAttribute('value', updation_row.childNodes[1].innerHTML);
+            row_td_fname.append(row_fname_input);
+            updation_row.replaceChild(row_td_fname, updation_row.childNodes[1]);
+
+            const row_td_lname = document.createElement('td');
+            const row_lname_input = document.createElement('INPUT');
+            row_lname_input.setAttribute('id', 'lname' + id);
+            row_lname_input.setAttribute('types', 'text');
+            row_lname_input.setAttribute('value', updation_row.childNodes[2].innerHTML);
+            row_td_lname.append(row_lname_input);
+            updation_row.replaceChild(row_td_lname, updation_row.childNodes[2]);
+
+            const row_td_hobbies = document.createElement('td');
+            const row_hobbies_input = document.createElement('INPUT');
+            row_hobbies_input.setAttribute('id', 'hobbies' + id);
+            row_hobbies_input.setAttribute('types', 'text');
+            row_hobbies_input.setAttribute('value', updation_row.childNodes[3].innerHTML);
+            row_td_hobbies.append(row_hobbies_input);
+            updation_row.replaceChild(row_td_hobbies, updation_row.childNodes[3]);
+
+        }
+
+        if (clickCount % 2 == 0) {
+            refresh_onUpdate(id);
+        }
+    }
+
+    // {% comment %}
+    // const updateData = (id) => {
+    //     console.log('update', id)
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: "{% url 'update' %}",
+    //         data: {
+    //             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+    //             'id': id,
+    //             'fname':,
+    //             'lname':,
+    //             'hobbies':,
+    //             'dob':,
+    //         },
+    //         success: (res) => {
+    //             fillTable(res)
+    //         }
+    //     })
+    // }
+    // {% endcomment %}
+
+
+    const deleteData = (id) => {
+        console.log('delete')
+        console.log(id)
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'delete' %}",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                'delRow': id,
+            },
+            success: (res) => {
+                // $('#'+e).remove();
+                fillTable(res)
+            }
+        })
+
+    }
+
+    var data;
+    const sendSearchData = (searchStr) => {
+        $.ajax({
+            type: "POST",
+            url: "{% url 'search' %}",
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                // 'str': searchStr,
+                'fname': document.getElementById('searchName').value,
+                // 'fname': document.getElementById('Firstname').value,
+                // 'lname': document.getElementById('Lastname').value,
+                // 'hobbies': document.getElementById('Hobbies').value,
+                // 'dob_start': document.getElementById('DOB_start').value,
+                // 'dob_end': document.getElementById('DOB_end').value,
+            },
+            success: (response) => {
+                console.log("success");
+                console.log(response);
+                fillTable(response);
+                // data = response.value;
+                // here we adding rows to table dynamically by appending <tr> tags in tbody of table......
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    }
+
+
+    const input_fname = document.getElementById('searchName');
+    // const input_fname = document.getElementById('Firstname');
+    // const input_lname = document.getElementById('Lastname');
+    // const input_hobbies = document.getElementById('Hobbies');
+    // const input_dob_start = document.getElementById('DOB_start');
+    // const input_dob_end = document.getElementById('DOB_end');
+
+    // del.array.forEach(element => {
+    //     element.addEventListener('click', e => {
+    //     console.log(e.target())
+    // });  
+    //addEventListener('click', e => {
+    //     console.log(e.target.getElementById())
+    // });
+
+
+    var searchTxt = ""
+    input_fname.addEventListener("keyup", e => {
+        console.log(e.target.value);
+        searchTxt = e.target.value;
+
+        sendSearchData(e.target.value);
+    });
+
+    // const updation = document;
+    // updation.addEventListener("keyup", e => {
+    //     if (e.target.value == 'ENTER') {
+    //         updateTable();
+    //     }
+    // });
+
+    // input_lname.addEventListener("keyup", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+    // input_hobbies.addEventListener("change", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+    // input_dob_start.addEventListener("change", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+    // input_dob_end.addEventListener("change", e => {
+    //     console.log(e.target.value);
+    //     searchTxt = e.target.value;
+
+    //     sendSearchData(e.target.value);
+    // });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            url: '{% url "all-data" %}',
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                // always add above line...
+            },
+            success: (function (res) {
+                console.log("HELLO");
+                fillTable(res);
+            }),
+        })
+
+        // here table data is fetched using ajax query only after the page is loaded completely......
+    });
+</script>
+
+</body>
+
+</html>
